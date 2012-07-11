@@ -1,13 +1,21 @@
-Cadreur_DIRECTIONS = {VERTICAL: 1, HORIZONTAL: 2};
+/**
+ *	@module Cadreur
+ */
 
-/** Used for create the container's name */
+/**	Used for create the container's name */
 var nb_cadreur_container = 65;
+
+/**
+ *	Enum of directions
+ *	@class Cadreur_DIRECTIONS
+ */
+Cadreur_DIRECTIONS = {VERTICAL: 1, HORIZONTAL: 2};
 
 /**
  *	Container of boxes or containers.
  *
  *	Used in internal by Cadreur.
- *	@param direction The direction of the container
+ *	@param {Cadreur_DIRECTIONS} direction The direction of the container
  *	@class CadreurContainer
  *	@constructor
  */
@@ -91,7 +99,6 @@ function Cadreur(rootNode, direction)
 };
 
 
-
 Cadreur.prototype = 
 {
 	/**
@@ -99,7 +106,8 @@ Cadreur.prototype =
 	 *
 	 *	The box have two faces. Frontface (default), and backface.
 	 *
-	 *	@return The box
+	 *	@method createBox
+	 *	@return {Object} An object : {box, front, back}
 	 */
 	createBox: function()
 	{
@@ -126,8 +134,9 @@ Cadreur.prototype =
 	 *
 	 *	createBox doesn't do this.
 	 *
-	 *	@param div The box to attach
-	 *	@return	The same box, but attached
+	 *	@method transformBox
+	 *	@param {HTMLElement} div The box to attach
+	 *	@return	{HTMLElement} The same box, but attached
 	 */
 	transformBox: function(div)
 	{
@@ -139,8 +148,9 @@ Cadreur.prototype =
 	/**
 	 *	Place the box in the layout.
 	 *
-	 *	@param box The box to place.
-	 *	@param container The optionnal container where to place the box.
+	 *	@method addBox
+	 *	@param {HTMLElement|CadreurContainer} box The box to place.
+	 *	@param {CadreurContainer|Null} container The optionnal container where to place the box.
 	 */
 	addBox: function(box, container)
 	{
@@ -149,6 +159,8 @@ Cadreur.prototype =
 
 	/**
 	 *	Toggle the display of boxes's sides.
+	 *
+	 *	@method toggleFrontMode
 	 */
 	toggleFrontMode: function()
 	{
@@ -161,7 +173,8 @@ Cadreur.prototype =
 	/**
 	 *	Update the layout size.
 	 *
-	 *	@param obj Optionnal layout reference.
+	 *	@method manageSize
+	 *	@param {Cadreur} obj Optionnal reference for replacing this.
 	 */
 	manageSize: function(obj)
 	{
@@ -182,7 +195,8 @@ Cadreur.prototype =
 	 *		* height of the box
 	 *		* stack of containers in which the box is
 	 *
-	 *	@param callback The function to execute.
+	 *	@method processing
+	 *	@param {function} callback The function to execute.
 	 */
 	processing: function(callback)
 	{
@@ -191,6 +205,8 @@ Cadreur.prototype =
 
 	/**
 	 *	Place every box to his place.
+	 *
+	 *	@method equilibrate
 	 */
 	equilibrate: function()
 	{
@@ -216,6 +232,11 @@ Cadreur.prototype =
 	 *	Manage the mouse location above the layout.
 	 *
 	 *	The processing is about the drag and drop.
+	 *
+	 *	@method hover
+	 *	@protected
+	 *	@param {Number} mouse_x
+	 *	@param {Number} mouse_y
 	 */
 	hover: function(mouse_x, mouse_y)
 	{
@@ -320,7 +341,8 @@ Cadreur.prototype =
 	/**
 	 *	Add a box in the best container.
 	 *
-	 *	@param box The box to place
+	 *	@method addBoxInBestPlace
+	 *	@param {HTMLElement|CadreurContainer} box The box to place
 	 */
 	addBoxInBestPlace: function(box) {
 		var best_container = this.rootContainer;
@@ -340,6 +362,7 @@ Cadreur.prototype =
 	/**
 	 *	Change the layout's disposition.
 	 *
+	 *	@method changeLayout
 	 *	@param new_layout	The new layout (really)
 	 */
 	changeLayout: function (new_layout) {
@@ -347,7 +370,10 @@ Cadreur.prototype =
 		this.equilibrate();
 	},
 
-	// Some usefull layouts
+	/**
+	 *	Some usefull layouts
+	 *	@property
+	 */
 	layouts:
 	{
 		/** Simple vertical layout */
@@ -452,8 +478,15 @@ Cadreur.prototype =
 	}
 }
 
+/**
+ *	@class CadreurContainer
+ */
 CadreurContainer.prototype = 
 {
+	/**
+	 *	@method toString
+	 *	@return {String}
+	 */
 	toString: function()
 	{
 		var str = "["+this.name+": ";
@@ -483,9 +516,11 @@ CadreurContainer.prototype =
 	 *	A function could be called when the box is added. The container is
 	 *		passed by parameters, and the box isn't added automatically. 
 	 *
-	 *	@param box The box to add
-	 *	@param container The container in which add the box
-	 *	@param action An optionnal function to execute when the box is added
+	 *	@method addBox
+	 *	@protected
+	 *	@param {HTMLElement|CadreurContainer} box The box to add
+	 *	@param {CadreurContainer} container The container in which add the box
+	 *	@param {Function|Null} action An optionnal function to execute when the box is added
 	 */ 
 	addBox: function(box, container, action)
 	{
@@ -516,7 +551,14 @@ CadreurContainer.prototype =
 		}
 	},
 
-	/** Add the box above the target.*/
+	/**
+	 *	Add the box above the target.
+	 *
+	 *	@method addBoxTop
+	 *	@param {HTMLElement|CadreurContainer} box
+	 *	@param {HTMLElement|CadreurContainer} target
+	 *	@param {CadreurContainer} container
+	 */
 	addBoxTop: function(box, target, container)
 	{
 		var obj  = this;
@@ -526,7 +568,14 @@ CadreurContainer.prototype =
 		}); 
 	},
 
-	/** Add the box right to the target.*/
+	/**
+	 *	Add the box right to the target.
+	 *
+	 *	@method addBoxRight
+	 *	@param {HTMLElement|CadreurContainer} box
+	 *	@param {HTMLElement|CadreurContainer} target
+	 *	@param {CadreurContainer} container
+	 */
 	addBoxRight: function(box, target, container)
 	{
 		this.addBox(box,container, function(container) {
@@ -535,7 +584,14 @@ CadreurContainer.prototype =
 		}); 
 	},
 
-	/** Add the box below the target.*/
+	/**
+	 *	Add the box below the target.
+	 *
+	 *	@method addBoxBottom
+	 *	@param {HTMLElement|CadreurContainer} box
+	 *	@param {HTMLElement|CadreurContainer} target
+	 *	@param {CadreurContainer} container
+	 */
 	addBoxBottom: function(box, target, container)
 	{
 		this.addBox(box,container, function(container) {
@@ -544,7 +600,14 @@ CadreurContainer.prototype =
 		}); 
 	},
 
-	/** Add the box left to the target.*/
+	/**
+	 *	Add the box left to the target.
+	 *
+	 *	@method addBoxLeft
+	 *	@param {HTMLElement|CadreurContainer} box
+	 *	@param {HTMLElement|CadreurContainer} target
+	 *	@param {CadreurContainer} container
+	 */
 	addBoxLeft: function(box, target, container)
 	{
 		this.addBox(box,container, function(container) {
@@ -552,14 +615,18 @@ CadreurContainer.prototype =
 			boxes.splice(boxes.indexOf(target), 0, box);			
 		}); 
 	},
+
 	/**
 	 *	Exec the callback function for each box in the layout.
-	 *		@param jmp_x X position of the box
-	 *		@param jmp_y Y position of the box
-	 *		@param width Width of the box
-	 *		@param height Height of the box
-	 *		@param callback The callback to execute (more info in Box_layout.processing)
-	 *		@param containers Stack of containers in which the boxes are
+	 *
+	 *	@method processing
+	 *	@protected	
+	 *	@param {Number} jmp_x X position of the box
+	 *	@param {Number} jmp_y Y position of the box
+	 *	@param {Number} width Width of the box
+	 *	@param {Number} height Height of the box
+	 *	@param {Function} callback The callback to execute (more info in Box_layout.processing)
+	 *	@param {Array} containers Stack of containers in which the boxes are
 	 */	
 	processing: function(jmp_x, jmp_y, width, height, callback, containers)
 	{
