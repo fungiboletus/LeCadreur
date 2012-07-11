@@ -1,0 +1,552 @@
+{
+    "project": {},
+    "files": {
+        "Cadreur.js": {
+            "name": "Cadreur.js",
+            "modules": {
+                "Cadreur": 1
+            },
+            "classes": {
+                "Cadreur_DIRECTIONS": 1,
+                "CadreurContainer": 1,
+                "Cadreur": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "Cadreur": {
+            "name": "Cadreur",
+            "submodules": {},
+            "classes": {
+                "Cadreur_DIRECTIONS": 1,
+                "CadreurContainer": 1,
+                "Cadreur": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "Cadreur.js",
+            "line": 30
+        }
+    },
+    "classes": {
+        "Cadreur_DIRECTIONS": {
+            "name": "Cadreur_DIRECTIONS",
+            "shortname": "Cadreur_DIRECTIONS",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Cadreur",
+            "namespace": "",
+            "file": "Cadreur.js",
+            "line": 8,
+            "description": "Enum of directions"
+        },
+        "CadreurContainer": {
+            "name": "CadreurContainer",
+            "shortname": "CadreurContainer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Cadreur",
+            "namespace": "",
+            "file": "Cadreur.js",
+            "line": 509,
+            "description": "Container of boxes or containers.\n\nUsed in internal by Cadreur.",
+            "params": [
+                {
+                    "name": "direction",
+                    "description": "The direction of the container",
+                    "type": "Cadreur_DIRECTIONS"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Cadreur": {
+            "name": "Cadreur",
+            "shortname": "Cadreur",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Cadreur",
+            "namespace": "",
+            "file": "Cadreur.js",
+            "line": 30,
+            "description": "Create a layout for a HTML element.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "rootNode",
+                    "description": "The HTML element in which is the layout"
+                },
+                {
+                    "name": "direction",
+                    "description": "The default direction of the layout (vertical or horizontal)"
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "Cadreur.js",
+            "line": 5,
+            "class": "Cadreur_DIRECTIONS",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 104,
+            "description": "Create a new box for the layout.\n\nThe box have two faces. Frontface (default), and backface.",
+            "itemtype": "method",
+            "name": "createBox",
+            "return": {
+                "description": "An object : {box, front, back}",
+                "type": "Object"
+            },
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 132,
+            "description": "Attach the box to the layout.\n\ncreateBox doesn't do this.",
+            "itemtype": "method",
+            "name": "transformBox",
+            "params": [
+                {
+                    "name": "div",
+                    "description": "The box to attach",
+                    "type": "HTMLElement"
+                }
+            ],
+            "return": {
+                "description": "The same box, but attached",
+                "type": "HTMLElement"
+            },
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 148,
+            "description": "Disable the drag'n'drop action for the div in the back side.",
+            "params": [
+                {
+                    "name": "div",
+                    "description": "The div in which disable the drag",
+                    "type": "HTMLElement"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 165,
+            "description": "Place the box in the layout.",
+            "itemtype": "method",
+            "name": "addBox",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "The box to place.",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "The optionnal container where to place the box.",
+                    "type": "CadreurContainer|Null"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 177,
+            "description": "Toggle the display of boxes's sides.",
+            "itemtype": "method",
+            "name": "toggleFrontMode",
+            "params": [
+                {
+                    "name": "action",
+                    "description": "Action to execute during the change",
+                    "type": "Function|Null"
+                },
+                {
+                    "name": "duration",
+                    "description": "Duration of the animation",
+                    "type": "Number"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 201,
+            "description": "Update the layout size.",
+            "itemtype": "method",
+            "name": "manageSize",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "Optionnal reference for replacing this.",
+                    "type": "Cadreur"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 215,
+            "description": "Exec the callback function for each box in the layout.\n\nThe passed arguments for the function are :\n\t* The box\n\t* x position of the box\n\t* y position of the box\n\t* width of the box\n\t* height of the box\n\t* stack of containers in which the box is",
+            "itemtype": "method",
+            "name": "processing",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "The function to execute.",
+                    "type": "Function"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 234,
+            "description": "Place every box to his place.",
+            "itemtype": "method",
+            "name": "equilibrate",
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 259,
+            "description": "Manage the mouse location above the layout.\n\nThe processing is about the drag and drop.",
+            "itemtype": "method",
+            "name": "hover",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "mouse_x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "mouse_y",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 288,
+            "description": "for determine if a point is in a triangle.",
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 302,
+            "description": "Add the dragged box in the good container.",
+            "params": [
+                {
+                    "name": "containers",
+                    "description": "Stack of containers"
+                },
+                {
+                    "name": "position",
+                    "description": "Top/Right/Bottom/Left"
+                },
+                {
+                    "name": "target",
+                    "description": "The neighbor box"
+                }
+            ],
+            "return": {
+                "description": "the result of the correct placement, or nothing"
+            },
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 369,
+            "description": "Add a box in the best container.",
+            "itemtype": "method",
+            "name": "addBoxInBestPlace",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "The box to place",
+                    "type": "HTMLElement|CadreurContainer"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 390,
+            "description": "Change the layout's disposition.",
+            "itemtype": "method",
+            "name": "changeLayout",
+            "params": [
+                {
+                    "name": "new_layout",
+                    "description": "The new layout (really)"
+                }
+            ],
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 401,
+            "description": "Some usefull layouts",
+            "itemtype": "property",
+            "name": "",
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 407,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 415,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 422,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 439,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 455,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 476,
+            "class": "Cadreur",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 514,
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 539,
+            "description": "Add the box in the target container.\n\nThe target container could be a child. This function is recursive.\n\nA function could be called when the box is added. The container is\n\tpassed by parameters, and the box isn't added automatically.",
+            "itemtype": "method",
+            "name": "addBox",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "The box to add",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "The container in which add the box",
+                    "type": "CadreurContainer"
+                },
+                {
+                    "name": "action",
+                    "description": "An optionnal function to execute when the box is added",
+                    "type": "Function|Null"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 592,
+            "description": "Add the box above the target.",
+            "itemtype": "method",
+            "name": "addBoxTop",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "",
+                    "type": "CadreurContainer"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 609,
+            "description": "Add the box right to the target.",
+            "itemtype": "method",
+            "name": "addBoxRight",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "",
+                    "type": "CadreurContainer"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 625,
+            "description": "Add the box below the target.",
+            "itemtype": "method",
+            "name": "addBoxBottom",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "",
+                    "type": "CadreurContainer"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 641,
+            "description": "Add the box left to the target.",
+            "itemtype": "method",
+            "name": "addBoxLeft",
+            "params": [
+                {
+                    "name": "box",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "target",
+                    "description": "",
+                    "type": "HTMLElement|CadreurContainer"
+                },
+                {
+                    "name": "container",
+                    "description": "",
+                    "type": "CadreurContainer"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        },
+        {
+            "file": "Cadreur.js",
+            "line": 657,
+            "description": "Exec the callback function for each box in the layout.",
+            "itemtype": "method",
+            "name": "processing",
+            "access": "protected",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "jmp_x",
+                    "description": "X position of the box",
+                    "type": "Number"
+                },
+                {
+                    "name": "jmp_y",
+                    "description": "Y position of the box",
+                    "type": "Number"
+                },
+                {
+                    "name": "width",
+                    "description": "Width of the box",
+                    "type": "Number"
+                },
+                {
+                    "name": "height",
+                    "description": "Height of the box",
+                    "type": "Number"
+                },
+                {
+                    "name": "callback",
+                    "description": "The callback to execute (more info in Box_layout.processing)",
+                    "type": "Function"
+                },
+                {
+                    "name": "containers",
+                    "description": "Stack of containers in which the boxes are",
+                    "type": "Array"
+                }
+            ],
+            "class": "CadreurContainer",
+            "module": "Cadreur"
+        }
+    ]
+}
