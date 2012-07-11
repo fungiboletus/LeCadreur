@@ -74,7 +74,7 @@ function Cadreur(rootNode, direction)
 
 	var jbody = $(document.body);
 	jbody.mouseup(function(){
-		if (!obj.front && obj.drag_enabled && obj.dragged_box){
+		if (obj.dragged_box){
 			
 			// If the box didn't find a place to live
 			if (!obj.dragged_box.style.top && !obj.dragged_box.style.left)
@@ -90,7 +90,7 @@ function Cadreur(rootNode, direction)
 
 	// Handling mouse position
 	jbody.mousemove(function(e){
-		if (!obj.front && obj.drag_enabled && obj.dragged_box){
+		if (obj.drag_enabled && obj.dragged_box){
 			obj.visual_drag.style.top = e.clientY-13+'px';
 			obj.visual_drag.style.left = e.clientX-13+'px';
 		}
@@ -146,6 +146,23 @@ Cadreur.prototype =
 	},
 
 	/**
+	 *	Disable the drag'n'drop action for the div in the back side.
+	 * 
+	 *	@param {HTMLElement} div The div in which disable the drag
+	 */
+	disableDrag: function(div)
+	{
+		var jdiv = $(div);
+		var obj = this;
+		jdiv.mousedown(function(){
+			obj.drag_enabled = false;
+		});
+		jdiv.mouseup(function(){
+			obj.drag_enabled = true;
+		});
+	},
+
+	/**
 	 *	Place the box in the layout.
 	 *
 	 *	@method addBox
@@ -161,13 +178,24 @@ Cadreur.prototype =
 	 *	Toggle the display of boxes's sides.
 	 *
 	 *	@method toggleFrontMode
+	 *	@param {Function|Null} action Action to execute during the change 
+	 *	@param {Number}	duration Duration of the animation	
 	 */
-	toggleFrontMode: function()
+	toggleFrontMode: function(action, duration)
 	{
-		var jnode = $(this.rootNode);
-		jnode.find(this.front ? '.front' : '.back').hide();
-		jnode.find(this.front ? '.back' : '.front').show();
 		this.front = !this.front;
+		var jnode = $(this.rootNode);
+
+		var boxes = jnode.find('.boxdiv');
+		boxes.addClass('flipped_animation');
+		var obj = this;
+		setTimeout(function() {
+			boxes.find(obj.front ? '.back' : '.front').hide();
+			boxes.find(obj.front ? '.front' : '.back').show();
+			boxes.removeClass('flipped_animation');
+			if (action) action();
+		}, duration == null ? 600 : duration);
+
 	},
 
 	/**
@@ -178,7 +206,7 @@ Cadreur.prototype =
 	 */
 	manageSize: function(obj)
 	{
-		var obj = obj === null ? this : obj.data;
+		var obj = obj == null ? this : obj.data;
 		obj.width = $(obj.rootNode).width();
 		obj.height = $(obj.rootNode).height();
 		obj.equilibrate();
@@ -524,6 +552,16 @@ CadreurContainer.prototype =
 	 */ 
 	addBox: function(box, container, action)
 	{
+		var remove = function(array, elem)
+		{
+		    var match = -1;
+
+		    while( (match = array.indexOf(elem)) > -1 )
+		        array.splice(match, 1);
+
+	        return array;
+		};
+
 		for (var i = 0; i < this.boxes.length; ++i)
 		{
 			var ibox = this.boxes[i];
@@ -533,12 +571,12 @@ CadreurContainer.prototype =
 				ibox.addBox(box, container, action);
 				// Removing empty containers (for eliminate empty areas)
 				if (ibox.boxes.length === 0)
-					this.boxes.remove(ibox);
+					this.boxes = remove(this.boxes, ibox);
 			}
 
 			// If we find the box in another container, we change his location
-			if (ibox !=== container && ibox === box)
-				this.boxes.remove(box);
+			if (ibox !== container && ibox === box)
+				this.boxes = remove(this.boxes, box);
 
 		}
 
