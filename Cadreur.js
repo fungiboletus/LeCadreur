@@ -40,7 +40,7 @@ function Cadreur(rootNode, direction)
 	if (!(rootNode instanceof HTMLElement)) alert("The rootNode parameter is not a HTML element");
 	this.rootNode = rootNode;
 
-	this.rootContainer = new CadreurContainer(direction); 
+	this.rootContainer = new CadreurContainer(direction);
 
 	// Manage size changes
 	this.manageSize();
@@ -75,14 +75,14 @@ function Cadreur(rootNode, direction)
 	var jbody = $(document.body);
 	jbody.mouseup(function(){
 		if (obj.dragged_box){
-			
+
 			// If the box didn't find a place to live
 			if (!obj.dragged_box.style.top && !obj.dragged_box.style.left)
-				// We could find a place 
+				// We could find a place
 				obj.addBoxInBestPlace(obj.dragged_box);
 			else
 				$(obj.dragged_box).removeClass('dragged');
-		
+
 			obj.visual_drag.style.display = 'none';
 			obj.dragged_box = null;
 		}
@@ -96,10 +96,13 @@ function Cadreur(rootNode, direction)
 		}
 		obj.hover(e.pageX, e.pageY);
 	});
+
+	// Disable text cursor
+	rootNode.onselectstart = function(){ return obj.dragged_box === null;};
 };
 
 
-Cadreur.prototype = 
+Cadreur.prototype =
 {
 	/**
 	 *	Create a new box for the layout.
@@ -147,7 +150,7 @@ Cadreur.prototype =
 
 	/**
 	 *	Disable the drag'n'drop action for the div in the back side.
-	 * 
+	 *
 	 *	@param {HTMLElement} div The div in which disable the drag
 	 */
 	disableDrag: function(div)
@@ -178,8 +181,8 @@ Cadreur.prototype =
 	 *	Toggle the display of boxes's sides.
 	 *
 	 *	@method toggleFrontMode
-	 *	@param {Function|Null} action Action to execute during the change 
-	 *	@param {Number}	duration Duration of the animation	
+	 *	@param {Function|Null} action Action to execute during the change
+	 *	@param {Number}	duration Duration of the animation
 	 */
 	toggleFrontMode: function(action, duration)
 	{
@@ -282,7 +285,7 @@ Cadreur.prototype =
 					if (!div)
 						$(box).addClass('identifiee');
 
-					// If the box is the dragged box, we have to do nothing here 
+					// If the box is the dragged box, we have to do nothing here
 					if (!div || div === box) return;
 
 					/** Fast method using vector product
@@ -303,7 +306,7 @@ Cadreur.prototype =
 					 *	Add the dragged box in the good container.
 					 *
 					 *	@param containers Stack of containers
-					 *	@param position Top/Right/Bottom/Left	
+					 *	@param position Top/Right/Bottom/Left
 					 *	@param target	The neighbor box
 					 *
 					 *	@return the result of the correct placement, or nothing
@@ -316,7 +319,7 @@ Cadreur.prototype =
 						if (!container)
 							return;
 
-						// Try to find a good container in which add the box 
+						// Try to find a good container in which add the box
 						if (container.direction === Cadreur_DIRECTIONS.VERTICAL)
 						{
 							if (position === 0)
@@ -334,7 +337,7 @@ Cadreur.prototype =
 
 						// If no container is good, try with the container from above
 						return arguments.callee(containers, position, container);
-					} 
+					}
 
 					// Locate where is the mouse in the box
 					var box_center_x = x + width / 2;
@@ -354,7 +357,7 @@ Cadreur.prototype =
 						x, y+height, mouse_x, mouse_y))
 						position = 3; // LEFT
 
-					// Try to add the box 
+					// Try to add the box
 					addBox(containers, position, box);
 
 					// And show to the user the wonderful result
@@ -385,7 +388,7 @@ Cadreur.prototype =
 
 		this.addBox(box, best_container);
 		this.equilibrate();
-	}, 
+	},
 
 	/**
 	 *	Change the layout's disposition.
@@ -509,7 +512,7 @@ Cadreur.prototype =
 /**
  *	@class CadreurContainer
  */
-CadreurContainer.prototype = 
+CadreurContainer.prototype =
 {
 	/**
 	 *	@method toString
@@ -542,14 +545,14 @@ CadreurContainer.prototype =
 	 *	The target container could be a child. This function is recursive.
 	 *
 	 *	A function could be called when the box is added. The container is
-	 *		passed by parameters, and the box isn't added automatically. 
+	 *		passed by parameters, and the box isn't added automatically.
 	 *
 	 *	@method addBox
 	 *	@protected
 	 *	@param {HTMLElement|CadreurContainer} box The box to add
 	 *	@param {CadreurContainer} container The container in which add the box
 	 *	@param {Function|Null} action An optionnal function to execute when the box is added
-	 */ 
+	 */
 	addBox: function(box, container, action)
 	{
 		var remove = function(array, elem)
@@ -602,8 +605,8 @@ CadreurContainer.prototype =
 		var obj  = this;
 		this.addBox(box,container, function(container) {
 			var boxes = container.boxes;
-			boxes.splice(boxes.indexOf(target), 0, box);			
-		}); 
+			boxes.splice(boxes.indexOf(target), 0, box);
+		});
 	},
 
 	/**
@@ -618,8 +621,8 @@ CadreurContainer.prototype =
 	{
 		this.addBox(box,container, function(container) {
 			var boxes = container.boxes;
-			boxes.splice(boxes.indexOf(target)+1, 0, box);			
-		}); 
+			boxes.splice(boxes.indexOf(target)+1, 0, box);
+		});
 	},
 
 	/**
@@ -634,8 +637,8 @@ CadreurContainer.prototype =
 	{
 		this.addBox(box,container, function(container) {
 			var boxes = container.boxes;
-			boxes.splice(boxes.indexOf(target)+1, 0, box);			
-		}); 
+			boxes.splice(boxes.indexOf(target)+1, 0, box);
+		});
 	},
 
 	/**
@@ -650,22 +653,22 @@ CadreurContainer.prototype =
 	{
 		this.addBox(box,container, function(container) {
 			var boxes = container.boxes;
-			boxes.splice(boxes.indexOf(target), 0, box);			
-		}); 
+			boxes.splice(boxes.indexOf(target), 0, box);
+		});
 	},
 
 	/**
 	 *	Exec the callback function for each box in the layout.
 	 *
 	 *	@method processing
-	 *	@protected	
+	 *	@protected
 	 *	@param {Number} jmp_x X position of the box
 	 *	@param {Number} jmp_y Y position of the box
 	 *	@param {Number} width Width of the box
 	 *	@param {Number} height Height of the box
 	 *	@param {Function} callback The callback to execute (more info in Box_layout.processing)
 	 *	@param {Array} containers Stack of containers in which the boxes are
-	 */	
+	 */
 	processing: function(jmp_x, jmp_y, width, height, callback, containers)
 	{
 		var height_jmp = 0;

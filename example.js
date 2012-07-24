@@ -92,7 +92,4 @@ $(document).ready(function() {
 
 	}).click(function(){return false;});
 
-
-	b = layout;
-	
 });
