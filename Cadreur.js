@@ -25,7 +25,26 @@ function CadreurContainer(direction)
 
 	this.boxes = [];
 	this.direction = direction;
-}
+};
+
+/**
+ *	Remove an element in an arry.
+ *
+ *	@method CadreurArrayRemove
+ *	@param {Array}	array
+ *	@param {Object}	elem
+ *	@return {Array}
+ */
+function CadreurArrayRemove(array, elem)
+{
+    var match = -1;
+
+    while( (match = array.indexOf(elem)) > -1 )
+        array.splice(match, 1);
+
+	return array;
+};
+
 
 /**
  *  Create a layout for a HTML element.
@@ -175,6 +194,25 @@ Cadreur.prototype =
 	addBox: function(box, container)
 	{
 		this.rootContainer.addBox(box, container ? container : this.rootContainer);
+	},
+
+	/**
+	 *	Remove the box of the layout.
+	 *
+	 *	@method removeBox
+	 *	@param {HTMLElement} box the box to remove.
+	 */
+	removeBox: function(box)
+	{
+		this.processing(
+			function (current_box, x, y, width, height, containers) {
+				if (box === current_box)
+				{
+					var container = containers[containers.length-1];
+					container = CadreurArrayRemove(container.boxes, box);
+				}
+			});
+		this.rootNode.removeChild(box);
 	},
 
 	/**
@@ -555,16 +593,6 @@ CadreurContainer.prototype =
 	 */
 	addBox: function(box, container, action)
 	{
-		var remove = function(array, elem)
-		{
-		    var match = -1;
-
-		    while( (match = array.indexOf(elem)) > -1 )
-		        array.splice(match, 1);
-
-	        return array;
-		};
-
 		for (var i = 0; i < this.boxes.length; ++i)
 		{
 			var ibox = this.boxes[i];
@@ -574,12 +602,12 @@ CadreurContainer.prototype =
 				ibox.addBox(box, container, action);
 				// Removing empty containers (for eliminate empty areas)
 				if (ibox.boxes.length === 0)
-					this.boxes = remove(this.boxes, ibox);
+					this.boxes = CadreurArrayRemove(this.boxes, ibox);
 			}
 
 			// If we find the box in another container, we change his location
 			if (ibox !== container && ibox === box)
-				this.boxes = remove(this.boxes, box);
+				this.boxes = CadreurArrayRemove(this.boxes, box);
 
 		}
 
