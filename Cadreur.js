@@ -87,7 +87,7 @@ function Cadreur(rootNode, direction)
 			obj.visual_drag.style.display = 'block';
 			obj.visual_drag.style.top = e.clientY-13+'px';
 			obj.visual_drag.style.left = e.clientX-13+'px';
-			obj.visual_drag.style.background = jdragged_box.css('background');
+			obj.visual_drag.style.background = jdragged_box.attr('cadreur_color');
 		}
 	});
 
@@ -104,6 +104,9 @@ function Cadreur(rootNode, direction)
 
 			obj.visual_drag.style.display = 'none';
 			obj.dragged_box = null;
+
+			if (obj.draggend_callback)
+				obj.draggend_callback();
 		}
 	});
 
