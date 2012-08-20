@@ -207,12 +207,31 @@ Cadreur.prototype =
 	 */
 	removeBox: function(box)
 	{
+		var remove_empty_containers = function(containers)
+		{
+			if (containers.length < 2) return;
+
+			var container = containers[containers.length - 1];
+
+			if (container.boxes.length === 0)
+			{
+				var parent_container = containers[containers.length - 2];
+				parent_container.boxes = CadreurArrayRemove(
+					parent_container.boxes, container);
+
+				remove_empty_containers(containers.slice(0, -2));
+
+			}
+		};
+
 		this.processing(
 			function (current_box, x, y, width, height, containers) {
 				if (box === current_box)
 				{
 					var container = containers[containers.length-1];
 					container = CadreurArrayRemove(container.boxes, box);
+
+					remove_empty_containers(containers);
 				}
 			});
 		this.rootNode.removeChild(box);
