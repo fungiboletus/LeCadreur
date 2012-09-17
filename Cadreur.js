@@ -28,7 +28,7 @@ function CadreurContainer(direction)
 };
 
 /**
- *	Remove an element in an arry.
+ *	Remove an element in an array.
  *
  *	@method CadreurArrayRemove
  *	@param {Array}	array
@@ -110,13 +110,15 @@ function Cadreur(rootNode, direction)
 		}
 	});
 
+	var containerPosition = jNode.position();
+
 	// Handling mouse position
 	jbody.mousemove(function(e){
 		if (obj.drag_enabled && obj.dragged_box){
 			obj.visual_drag.style.top = e.clientY-13+'px';
 			obj.visual_drag.style.left = e.clientX-13+'px';
 		}
-		obj.hover(e.pageX, e.pageY);
+		obj.hover(e.pageX-containerPosition.left, e.pageY-containerPosition.top);
 	});
 
 	// Disable text cursor
