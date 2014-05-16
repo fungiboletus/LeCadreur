@@ -76,13 +76,29 @@ function Cadreur(rootNode, direction)
 	this.visual_drag.style.display = 'none';
 	this.rootNode.appendChild(this.visual_drag);
 
-	var obj = this;
-	jNode.mousedown(function(e){
-		if (!obj.front && obj.drag_enabled && obj.dragged_box === null) {
-			// Recovery of the dragged box
-			var jdragged_box = jNode.find('.boxdiv.identifiee');
+	function convertTouchEvent(e) {
+		if (e.originalEvent.touches) {
+			var t = e.originalEvent.touches[0];
+			if (t) {
+				e.clientY = t.clientY;
+				e.clientX = t.clientX;
+				e.pageX = t.pageX;
+				e.pageY = t.pageY;
+			}
+		}
+	}
 
+	var obj = this;
+	jNode.on('mousedown touchstart', '.boxdiv', function(e){
+		if (!obj.front && obj.drag_enabled && obj.dragged_box === null) {
+			convertTouchEvent(e);
+
+			obj.hover(e.pageX-containerPosition.left, e.pageY-containerPosition.top);
+
+			// Recovery of the dragged box
+			var jdragged_box = $(this);
 			jdragged_box.addClass('dragged');
+
 			obj.dragged_box = jdragged_box[0];
 			obj.visual_drag.style.display = 'block';
 			obj.visual_drag.style.top = e.clientY-13+'px';
@@ -92,8 +108,9 @@ function Cadreur(rootNode, direction)
 	});
 
 	var jbody = $(document.body);
-	jbody.mouseup(function(){
+	jbody.on('mouseup touchend', function(e){
 		if (obj.dragged_box){
+			e.preventDefault();
 
 			// If the box didn't find a place to live
 			if (!obj.dragged_box.style.top && !obj.dragged_box.style.left)
@@ -113,8 +130,13 @@ function Cadreur(rootNode, direction)
 	var containerPosition = jNode.position();
 
 	// Handling mouse position
-	jbody.mousemove(function(e){
+	jbody.on('mousemove touchmove', function(e){
+	
+		convertTouchEvent(e);
+
 		if (obj.drag_enabled && obj.dragged_box){
+			e.preventDefault();
+
 			obj.visual_drag.style.top = e.clientY-13+'px';
 			obj.visual_drag.style.left = e.clientX-13+'px';
 		}
@@ -181,10 +203,10 @@ Cadreur.prototype =
 	{
 		var jdiv = $(div);
 		var obj = this;
-		jdiv.mousedown(function(){
+		jdiv.on('mousedown touchstart', function(){
 			obj.drag_enabled = false;
 		});
-		jdiv.mouseup(function(){
+		jdiv.on('mouseup touchend', function(){
 			obj.drag_enabled = true;
 		});
 	},
@@ -343,10 +365,6 @@ Cadreur.prototype =
 				if (box_mouse_x >= 0 && box_mouse_x <= width &&
 					box_mouse_y >= 0 && box_mouse_y <= height)
 				{
-					// If this is not the dragged mouse, is just an identifed box
-					if (!div)
-						$(box).addClass('identifiee');
-
 					// If the box is the dragged box, we have to do nothing here
 					if (!div || div === box) return;
 
@@ -424,9 +442,6 @@ Cadreur.prototype =
 
 					// And show to the user the wonderful result
 					obj.equilibrate();
-
-				} else {
-					$(box).removeClass('identifiee');
 				}
 			});
 	},
